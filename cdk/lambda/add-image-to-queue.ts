@@ -1,10 +1,6 @@
 import { SQS } from 'aws-sdk';
 
 exports.handler = async (event: any) => {
-  console.log(event.Records[0].s3);
-  console.log('Attempting to add image to queue', event.Records[0].s3);
-  // write image url to db
-
   const sqs = new SQS({ region: 'us-east-1' });
 
   const params = {
@@ -14,8 +10,9 @@ exports.handler = async (event: any) => {
   };
 
   try {
+    console.log('Attempting to add image to queue', event.Records[0].s3);
     const data = await sqs.sendMessage(params).promise();
-    console.log('Success adding image to queue', data.MessageId);
+    console.log(`Success adding image to queue. Message id: ${data.MessageId}`);
   } catch (err) {
     console.log('Error adding image to queue', err);
   }

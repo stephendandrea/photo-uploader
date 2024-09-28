@@ -1,14 +1,13 @@
 import { S3 } from 'aws-sdk';
 import { Jimp, JimpMime } from 'jimp';
 
+// const convert = require('heic-convert');
+
 exports.handler = async (event: any) => {
   const body = JSON.parse(event.Records[0].body);
-  console.log('Process image from queue', body);
-
   const s3 = new S3({ region: 'us-east-1' });
 
-  console.log('bucket', body.bucket?.name);
-  console.log('Key', body.object?.key);
+  console.log(`Process image from queue. Filename: ${body.object?.key}`);
 
   const image = await s3
     .getObject({
@@ -17,8 +16,11 @@ exports.handler = async (event: any) => {
     })
     .promise();
 
-  const jimpImage = await Jimp.read(image.Body);
+  const jimpImage = await Jimp.read(image.Body as Buffer);
+  console.log({ jimpImage });
+
   const newImage = await jimpImage.greyscale().getBuffer(JimpMime.png);
+  console.log({ newImage });
 
   await s3
     .putObject({
