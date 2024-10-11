@@ -4,19 +4,11 @@ import { Construct } from 'constructs';
 import path = require('path');
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { AmplifyHostingStack } from './amplify-hosting-stack';
+import { DatabaseStack } from './database-stack';
+
 export class MyCdkProjectStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-
-    new AmplifyHostingStack(this, 'HostingStack', {
-      githubOauthTokenName: 'GithubAccessToken',
-      owner: 'stephendandrea',
-      repository: 'photo-uploader',
-      // environmentVariables: {
-      //   USERPOOL_ID: authStack.userpool.userPoolId,
-      //   GRAPHQL_URL: apiStack.graphqlURL,
-      // },
-    });
 
     // Define an S3 bucket
     const bucket = new cdk.aws_s3.Bucket(this, 'MyBucket', {

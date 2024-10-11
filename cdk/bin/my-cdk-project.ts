@@ -2,8 +2,22 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { MyCdkProjectStack } from '../lib/my-cdk-project-stack';
+import { DatabaseStack } from '../lib/database-stack';
+import { AmplifyHostingStack } from '../lib/amplify-hosting-stack';
 
 const app = new cdk.App() as any;
+
+new DatabaseStack(app, 'DatabaseStack', {
+  stage: 'dev',
+  yourIpAddres: '67.244.71.224/32',
+});
+
+new AmplifyHostingStack(app, 'HostingStack', {
+  githubOauthTokenName: 'GithubAccessToken',
+  owner: 'stephendandrea',
+  repository: 'photo-uploader',
+  stage: 'dev',
+});
 
 new MyCdkProjectStack(app, 'MyCdkProjectStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
