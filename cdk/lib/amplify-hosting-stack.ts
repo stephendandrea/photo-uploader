@@ -69,6 +69,7 @@ export class AmplifyHostingStack extends cdk.Stack {
                   commands: [
                     `echo "DATABASE_URL=${DATABASE_URL}" > .env`,
                     'yarn build',
+                    `cd .next; echo "DATABASE_URL=${DATABASE_URL}" > .env`,
                   ],
                 },
               },

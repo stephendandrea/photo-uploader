@@ -3,8 +3,6 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 import path = require('path');
 import * as sqs from 'aws-cdk-lib/aws-sqs';
-import { AmplifyHostingStack } from './amplify-hosting-stack';
-import { DatabaseStack } from './database-stack';
 
 export class MyCdkProjectStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
