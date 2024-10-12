@@ -14,9 +14,10 @@ import {
   Platform,
   RedirectStatus,
 } from '@aws-cdk/aws-amplify-alpha';
-import { SecretsManager } from 'aws-sdk';
+import { SecretsManager, SSM } from 'aws-sdk';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { run } from 'node:test';
+import { StringParameter } from 'aws-cdk-lib/aws-ssm';
 
 interface HostingStackProps extends cdk.StackProps {
   readonly owner: string;
@@ -30,6 +31,17 @@ export class AmplifyHostingStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: HostingStackProps) {
     super(scope, id, props);
 
+    const dbSecret = Secret.fromSecretNameV2(
+      this,
+      'db-secret',
+      `${props?.stage}-credentials`
+    );
+
+    const DATABASE_URL = `postgresql://postgres:${dbSecret
+      .secretValueFromJson('password')
+      .unsafeUnwrap()
+      .toString()}@dev.chss2suwmho3.us-east-1.rds.amazonaws.com:5432/postgres`;
+
     const amplifyApp = new App(this, 'AmplifyCDK', {
       appName: 'Photo Uploader',
       sourceCodeProvider: new GitHubSourceCodeProvider({
@@ -39,41 +51,34 @@ export class AmplifyHostingStack extends cdk.Stack {
       }),
       platform: Platform.WEB_COMPUTE,
       autoBranchDeletion: true,
-      environmentVariables: {
-        ...(props.environmentVariables || {}),
-      },
+      environmentVariables: props.environmentVariables,
       buildSpec: codebuild.BuildSpec.fromObjectToYaml({
         version: 1,
-        applications: [
-          {
-            appRoot: 'nextjs',
-            backend: {
-              enviornment: {},
+        appRoot: 'nextjs',
+        frontend: {
+          phases: {
+            preBuild: {
+              commands: ['npm ci'],
             },
-            frontend: {
-              phases: {
-                preBuild: {
-                  commands: ['npm ci'],
-                },
-                build: {
-                  commands: ['npm run build'],
-                },
-              },
-              artifacts: {
-                baseDirectory: '.next',
-                files: ['**/*'],
-              },
-              cache: {
-                paths: ['node_modules/**/*'],
-              },
+            build: {
+              commands: [
+                'npm run build',
+                'cd .next',
+                'touch .deploy-manifest.json',
+                `echo "DATABASE_URL=${DATABASE_URL}" > .env`,
+              ],
             },
           },
-        ],
-        framework: {
-          name: 'next',
-          version: '14.2.15',
+          artifacts: {
+            baseDirectory: '.next',
+            files: ['**/*'],
+          },
+          cache: {
+            paths: [],
+          },
         },
       }),
+
       customRules: [
         {
           source: '/<*>',
@@ -87,8 +92,8 @@ export class AmplifyHostingStack extends cdk.Stack {
       stage: 'PRODUCTION',
     });
 
-    new CfnOutput(this, 'appId', {
-      value: amplifyApp.appId,
-    });
+    // new CfnOutput(this, 'appId', {
+    //   value: amplifyApp.appId,
+    // });
   }
 }

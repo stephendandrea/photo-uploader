@@ -1,0 +1,3 @@
+{
+  "ssm:account=738423437369:parameterName=dev-credentials-arn:region=us-east-1": "arn:aws:secretsmanager:us-east-1:738423437369:secret:dev-credentials-1eKB3u"
+}

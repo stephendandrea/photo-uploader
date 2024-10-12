@@ -17,6 +17,10 @@ new AmplifyHostingStack(app, 'HostingStack', {
   owner: 'stephendandrea',
   repository: 'photo-uploader',
   stage: 'dev',
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION,
+  },
 });
 
 new MyCdkProjectStack(app, 'MyCdkProjectStack', {
