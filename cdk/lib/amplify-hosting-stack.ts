@@ -51,32 +51,37 @@ export class AmplifyHostingStack extends cdk.Stack {
       }),
       platform: Platform.WEB_COMPUTE,
       autoBranchDeletion: true,
-      environmentVariables: props.environmentVariables,
+      environmentVariables: {
+        ...props.environmentVariables,
+        AMPLIFY_MONOREPO_APP_ROOT: 'nextjs',
+      },
       buildSpec: codebuild.BuildSpec.fromObjectToYaml({
         version: 1,
-        appRoot: 'nextjs',
-        frontend: {
-          phases: {
-            preBuild: {
-              commands: ['npm ci'],
+        applications: [
+          {
+            appRoot: 'nextjs',
+            frontend: {
+              phases: {
+                preBuild: {
+                  commands: ['npm ci'],
+                },
+                build: {
+                  commands: [
+                    `echo "DATABASE_URL=${DATABASE_URL}" > .env`,
+                    'npm run build',
+                  ],
+                },
+              },
+              artifacts: {
+                baseDirectory: '.next',
+                files: ['**/*'],
+              },
+              cache: {
+                paths: ['node_modules/**/*'],
+              },
             },
-            build: {
-              commands: [
-                'npm run build',
-                'cd .next',
-                'touch .deploy-manifest.json',
-                `echo "DATABASE_URL=${DATABASE_URL}" > .env`,
-              ],
-            },
           },
-          artifacts: {
-            baseDirectory: '.next',
-            files: ['**/*'],
-          },
-          cache: {
-            paths: [],
-          },
-        },
+        ],
       }),
 
       customRules: [
