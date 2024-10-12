@@ -63,12 +63,12 @@ export class AmplifyHostingStack extends cdk.Stack {
             frontend: {
               phases: {
                 preBuild: {
-                  commands: ['npm ci'],
+                  commands: ['yarn install --frozen-lockfile'],
                 },
                 build: {
                   commands: [
                     `echo "DATABASE_URL=${DATABASE_URL}" > .env`,
-                    'npm run build',
+                    'yarn build',
                   ],
                 },
               },

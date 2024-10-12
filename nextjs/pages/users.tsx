@@ -3,8 +3,11 @@ import '@/app/globals.css';
 import { User } from '@prisma/client';
 
 export async function getStaticProps() {
-  const users = await prisma.user.findMany();
+  // const users = await prisma.user.findMany();
 
+  const users = await prisma.$queryRaw`SELECT * FROM User`;
+
+  console.log({ users });
   return {
     props: { users },
   };
