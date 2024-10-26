@@ -75,10 +75,12 @@ export class DatabaseStack extends cdk.Stack {
     if (props?.yourIpAddres) {
       // your to access your RDS instance!
       this.defaultSecurityGroup.addIngressRule(
-        ec2.Peer.ipv4(props.yourIpAddres),
-        ec2.Port.tcp(5432),
-        'allow 5432 access from my IP'
+        ec2.Peer.anyIpv4(),
+        ec2.Port.allTraffic()
       );
+      // ec2.Peer.ipv4(props.yourIpAddres),
+      // ec2.Port.tcp(5432),
+      // 'allow 5432 access from my IP'
     }
     // finally, lets configure and create our database!
     const rdsConfig: rds.DatabaseInstanceProps = {

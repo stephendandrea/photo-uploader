@@ -3,7 +3,8 @@ import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { MyCdkProjectStack } from '../lib/my-cdk-project-stack';
 import { DatabaseStack } from '../lib/database-stack';
-import { AmplifyHostingStack } from '../lib/amplify-hosting-stack';
+// import { AmplifyHostingStack } from '../lib/amplify-hosting-stack';
+import { Ec2Stack } from '../lib/ec2-stack';
 
 const app = new cdk.App() as any;
 
@@ -12,16 +13,23 @@ new DatabaseStack(app, 'DatabaseStack', {
   yourIpAddres: '67.244.71.224/32',
 });
 
-new AmplifyHostingStack(app, 'HostingStack', {
-  githubOauthTokenName: 'GithubAccessToken',
-  owner: 'stephendandrea',
-  repository: 'photo-uploader',
-  stage: 'dev',
+new Ec2Stack(app, 'Ec2Stack', {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
     region: process.env.CDK_DEFAULT_REGION,
   },
 });
+
+// new AmplifyHostingStack(app, 'HostingStack', {
+//   githubOauthTokenName: 'GithubAccessToken',
+//   owner: 'stephendandrea',
+//   repository: 'photo-uploader',
+//   stage: 'dev',
+//   env: {
+//     account: process.env.CDK_DEFAULT_ACCOUNT,
+//     region: process.env.CDK_DEFAULT_REGION,
+//   },
+// });
 
 new MyCdkProjectStack(app, 'MyCdkProjectStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.

@@ -1,3 +1,61 @@
 {
-  "ssm:account=738423437369:parameterName=dev-credentials-arn:region=us-east-1": "arn:aws:secretsmanager:us-east-1:738423437369:secret:dev-credentials-1eKB3u"
+  "ssm:account=738423437369:parameterName=dev-credentials-arn:region=us-east-1": "arn:aws:secretsmanager:us-east-1:738423437369:secret:dev-credentials-1eKB3u",
+  "vpc-provider:account=738423437369:filter.isDefault=true:region=us-east-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-08e123a7f8610ff30",
+    "vpcCidrBlock": "172.31.0.0/16",
+    "ownerAccountId": "738423437369",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-059a190dd791eeccb",
+            "cidr": "172.31.0.0/20",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-058b17e0494ecda5f"
+          },
+          {
+            "subnetId": "subnet-0ee78a26fd66929b6",
+            "cidr": "172.31.80.0/20",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-058b17e0494ecda5f"
+          },
+          {
+            "subnetId": "subnet-0b7f4a9c501f263d0",
+            "cidr": "172.31.16.0/20",
+            "availabilityZone": "us-east-1c",
+            "routeTableId": "rtb-058b17e0494ecda5f"
+          },
+          {
+            "subnetId": "subnet-02eceffbf57e4dcab",
+            "cidr": "172.31.32.0/20",
+            "availabilityZone": "us-east-1d",
+            "routeTableId": "rtb-058b17e0494ecda5f"
+          },
+          {
+            "subnetId": "subnet-0dd1a3fe1e7e3d624",
+            "cidr": "172.31.48.0/20",
+            "availabilityZone": "us-east-1e",
+            "routeTableId": "rtb-058b17e0494ecda5f"
+          },
+          {
+            "subnetId": "subnet-0f97a915c7f17cc57",
+            "cidr": "172.31.64.0/20",
+            "availabilityZone": "us-east-1f",
+            "routeTableId": "rtb-058b17e0494ecda5f"
+          }
+        ]
+      }
+    ]
+  },
+  "availability-zones:account=738423437369:region=us-east-1": [
+    "us-east-1a",
+    "us-east-1b",
+    "us-east-1c",
+    "us-east-1d",
+    "us-east-1e",
+    "us-east-1f"
+  ]
 }
