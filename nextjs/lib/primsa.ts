@@ -4,6 +4,7 @@ interface CustomNodeJsGlobal {
   prisma: PrismaClient;
 }
 
+// CREATE MODAL
 declare const global: CustomNodeJsGlobal;
 
 const prisma = new PrismaClient();
