@@ -4,7 +4,6 @@ interface CustomNodeJsGlobal {
   prisma: PrismaClient;
 }
 
-// comment
 declare const global: CustomNodeJsGlobal;
 
 const prisma = new PrismaClient();
