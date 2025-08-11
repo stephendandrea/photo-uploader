@@ -7,6 +7,7 @@ interface CustomNodeJsGlobal {
 
 // Feature 1
 // Feature 2
+// Feature 3
 
 // CREATE MODAL
 declare const global: CustomNodeJsGlobal;
