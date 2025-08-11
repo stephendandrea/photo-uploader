@@ -5,6 +5,8 @@ interface CustomNodeJsGlobal {
   prisma: PrismaClient;
 }
 
+// Comment
+
 // CREATE MODAL
 declare const global: CustomNodeJsGlobal;
 
