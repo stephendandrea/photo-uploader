@@ -1,0 +1,5 @@
+  - name: React Project Checker
+  # You may pin to the exact commit or the version.
+  # uses: VictorDanilov/react-project-checker-action@3c1454ece249b31da81f04d29f2e5e6dba549d99
+  uses: VictorDanilov/react-project-checker-action@v0.0.1-alpha
+          
