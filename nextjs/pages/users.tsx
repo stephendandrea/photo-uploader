@@ -2,7 +2,7 @@ import prisma from "@/lib/primsa";
 import "@/app/globals.css";
 import { User } from "@prisma/client";
 
-// Feature 2
+// Feature 5
 export async function getStaticProps() {
   const users = await prisma.user.findMany();
 
